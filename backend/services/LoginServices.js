@@ -29,9 +29,9 @@ const emailAndPasswordCheckContent = (email, password) => {
 const checkUserRegister = (email, password, user) => {
   if(!user || email !== user.email || password !== user.password) {
     return objError('Incorrect username or password', UNAUTHORIZED);
-  };
+  }
   return null;
-}
+};
 
 const LoginServices = async(req, res) => {
   const { email, password } = req.body;
