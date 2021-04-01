@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import AppContext from '../context/AppContext';
 import fetchApiJsonBody from '../services/fetchApi';
 import validationFuncs from '../services/validationFuncs';
@@ -9,7 +9,7 @@ function SignupPage() {
     setUser,
   } = useContext(AppContext);
   
-  if(user.token) history.push('/profile')
+  if (user.token) history.push('/profile');
 
   const [inputValues, setInputValues] = useState({
     name: '',
@@ -46,6 +46,7 @@ function SignupPage() {
       return;
     }
     setUser(signupReturn);
+    history.push('/profile');
   }
 
   return(
@@ -70,12 +71,12 @@ function SignupPage() {
           onChange={ handleChange }
         />
       </label>
-      <label htmlFor="pass">
+      <label htmlFor="password">
         Senha
         <input
           type="password"
-          name="pass"
-          id="pass"
+          name="password"
+          id="password"
           value= {inputValues.password}
           onChange={ handleChange }
         />

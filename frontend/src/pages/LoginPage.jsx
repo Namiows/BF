@@ -9,6 +9,7 @@ function LoginPage() {
   const handleChange = ({ target }) => {
     setInputValues({ ...inputValues, [target.name]: target.value });
   };
+  
 
   return (
     <div className="login-register">
@@ -23,7 +24,7 @@ function LoginPage() {
             onChange={ handleChange }
           />
         </label>
-        <label htmlFor="pass">
+        <label htmlFor="password">
           Senha
           <input
             type="password"

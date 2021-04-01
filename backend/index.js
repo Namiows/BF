@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const LoginController = require('./controllers/LoginController');
+const SignupController = require('./controllers/SignupController');
 
 require('dotenv').config();
 
@@ -20,6 +22,9 @@ app.use((req, _res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use('/login', LoginController);
+app.use('/signup', SignupController);
 
 app.use((err, _req, res) => {
   console.error({ err });

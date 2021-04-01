@@ -1,10 +1,10 @@
-const { getUserByEmail } = require('../models/RegisterModel');
+const { getUserByEmail } = require('../models/SignupModel');
 const { createToken } = require('../utils/createToken');
 const { UNAUTHORIZED, OK } = require('../utils/allStatusCode');
 const {
   validateEmail,
   validatePassword
-} = require('../utils/funcValidations');
+} = require('../utils/validationFuncs');
 
 const objError = (err, status) => ({ err, status });
 
@@ -33,7 +33,7 @@ const checkUserRegister = (email, password, user) => {
   return null;
 };
 
-const LoginServices = async(req, res) => {
+const LoginService = async(req, res) => {
   const { email, password } = req.body;
 
   const error = emailAndPasswordExists(email, password);
@@ -53,4 +53,4 @@ const LoginServices = async(req, res) => {
   return res.status(OK).json({ ...userWithoutId, token });
 }
 
-module.export = LoginServices;
+module.export = LoginService;

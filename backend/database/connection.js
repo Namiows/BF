@@ -9,7 +9,7 @@ const connection = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then((conn) => conn.db('fiveBD'))
+    .then((conn) => conn.db('fiveDB'))
     .catch((err) => {
       console.error(err);
       process.exit(1)
