@@ -1,30 +1,12 @@
-import React, {useState, useEffect } from 'react';
-import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
-import Header from './components/layout/Header';
-import Home from './components/pages/Home';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import { 
-  Login,
-  Register,
-  Home,
-} from './pages'
+import React from 'react';
+import './App.css';
 
-import Provider from './context/Provider'
+import StrangerThings from './components/StrangerThings';
 
 function App() {
-
   return (
     <div className="App">
-      <BrowserRouter>
-        <Provider>
-          <Switch>
-          <Route exact path="/" component={ Home} />
-            <Route exact path="/login" component={ Login } />
-            <Route exact path="/signup" component={ Register } />          
-          </Switch>
-        </Provider>
-      </BrowserRouter>
+      <StrangerThings />
     </div>
   );
 }
