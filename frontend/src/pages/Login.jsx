@@ -1,86 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import validationFuncs from '../services/validationFuncs';
-import fetchApiJsonBody from '../services/fetchApi';
+import React, { useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+import ErrorNotice from "../../components/misc/ErrorNotice";
 
-function LoginPage() {
-  const history = useHistory()
-  // const [user, setUser] = useState('');
-  const [inputValues, setInputValues] = useState({ email: '', password: '' });
+function Login () {
 
-  const handleChange = ({ target }) => {
-    setInputValues({ ...inputValues, [target.name]: target.value });
-  };
+const [email, setEmail] = useState();
+const [password, setPassword] = useState();
+const [error, setError] = useState();
+const { setUserData } = useContext(UserContext);
+const history = useHistory();
 
-  const [valid, setValid] = useState(true);
-
-  const isValid = () => {
-    const email = validationFuncs.validateEmail(inputValues.email);
-    const password = validationFuncs.validatePassword(inputValues.password);
-    const name = validationFuncs.validateName(inputValues.name);
-    if (email && name && password) {
-      setValid(false);
-    } else {
-      setValid(true);
-    }
-  };
-
-  useEffect(() => isValid(),
-    [inputValues.name, inputValues.password, inputValues.email]);
-
-  const [errMessage, setErrMessage] = useState('');
-
-  const handleClick = async() => {
-    const signinReturn = await fetchApiJsonBody('/login', inputValues);
-    if(!signinReturn) {
-      setErrMessage(signinReturn.err)
-      return;
-    }
-    history.push('/profile');
+const submit = async (e) => {
+e.preventDefault();
+  try{
+    const loginUser = {email, password};
+    const loginResponse = await axios.post("http://localhost:3000/users/login", loginUser);
+    setUserData({
+      token: loginResponse.data.token,
+      user: loginResponse.data.user
+    });
+    localStorage.setItem("auth-token", loginResponse.data.token);
+    history.push("/");
+  } catch(err) {
+    err.response.data.msg && setError(err.response.data.msg)
   }
+};
 
   return (
-    <div className="login-register">
-      <form>
-        <label htmlFor="email">
-          Email
-          <input  
-            type="email"
-            id="email"
-            name="email"
-            value={ inputValues.email }
-            onChange={ handleChange }
-          />
+    <div className="login">
+      <h2>Login</h2>
+      {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
+      <form onSubmit={submit}>
+        <label>
+          Email:
+          <input type="email" id="email" onChange={e => setEmail(e.target.value)}/>
         </label>
-        <label htmlFor="password">
-          Senha
-          <input
-            type="password"
-            id="pass"
-            name="password"
-            value={ inputValues.password}
-            onChange={ handleChange }
-          />
+        <label>
+          Password:
+          <input type="password" id="password" onChange={e => setPassword(e.target.value)}/>
         </label>
-        <span>{ errMessage }</span>
-        <button
-          id="enter"
-          type="button"
-          onClick={ handleClick }
-        >
-          Entrar
-        </button>
-        <button
-          id="sign-up"
-          type="button"
-          onClick={ () => history.push('/signup') }
-          disabled= { valid }
-        >
-          Ainda não tenho conta
-        </button>
+        <input
+          type="submit"
+          value="Login"
+          className="btn btn-primary"
+        />
       </form>
     </div>
   );
 }
-
-export default LoginPage;
+export default Login;

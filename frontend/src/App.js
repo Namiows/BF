@@ -1,18 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect } from 'react';
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
-import { LoginPage, SignupPage } from './pages'
+import Header from './components/layout/Header';
+import Home from './components/pages/Home';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import { 
+  Login,
+  Register,
+  Home,
+} from './pages'
 
 import Provider from './context/Provider'
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
         <Provider>
           <Switch>
-            <Route exact path="/login" component={ LoginPage } />
-            <Route exact path="/signup" component={ SignupPage } />
-            <Route exact path="/" component={ () => <Redirect to="/login" /> } />
+          <Route exact path="/" component={ Home} />
+            <Route exact path="/login" component={ Login } />
+            <Route exact path="/signup" component={ Register } />          
           </Switch>
         </Provider>
       </BrowserRouter>
